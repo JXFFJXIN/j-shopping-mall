@@ -1,91 +1,31 @@
 <template>
   <div class="home-container">
-    <div class="menu-container">
-      <a-menu
-        :default-selected-keys="['1']"
-        :default-open-keys="['sub1']"
-        mode="inline"
-        theme="dark"
-        :inline-collapsed="collapsed"
-      >
-        <a-menu-item key="1">
-          <a-icon type="pie-chart" />
-          <span>Option 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <a-icon type="desktop" />
-          <span>Option 2</span>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <a-icon type="inbox" />
-          <span>Option 3</span>
-        </a-menu-item>
-        <a-sub-menu key="sub1">
-          <span slot="title"
-            ><a-icon type="mail" /><span>Navigation One</span></span
-          >
-          <a-menu-item key="5"> Option 5 </a-menu-item>
-          <a-menu-item key="6"> Option 6 </a-menu-item>
-          <a-menu-item key="7"> Option 7 </a-menu-item>
-          <a-menu-item key="8"> Option 8 </a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub2">
-          <span slot="title"
-            ><a-icon type="appstore" /><span>Navigation Two</span></span
-          >
-          <a-menu-item key="9"> Option 9 </a-menu-item>
-          <a-menu-item key="10"> Option 10 </a-menu-item>
-          <a-sub-menu key="sub3" title="Submenu">
-            <a-menu-item key="11"> Option 11 </a-menu-item>
-            <a-menu-item key="12"> Option 12 </a-menu-item>
-          </a-sub-menu>
-        </a-sub-menu>
-      </a-menu>
-    </div>
-    <div :class="{ 'main-container': true, 'menu-unfold': collapsed }">
-      <header>
-          <a-button
-            type="primary"
-            style="margin-bottom: 16px"
-            @click="toggleCollapsed"
-          >
-            <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
-          </a-button>
-        <div class="breadcrumb-container">
-          <a-breadcrumb>
-            <a-breadcrumb-item>首页</a-breadcrumb-item>
-            <a-breadcrumb-item
-              ><a href="">统计</a></a-breadcrumb-item
-            >
-          </a-breadcrumb>
-        </div>
-        <ul class="user-info-container">
-          <li>欢迎,这个憨批
-            <a-icon type="down" />
-          </li>
-          <li>退出</li>
-        </ul>
-      </header>
+    <LeftMenu />
+    <div :class="{ 'main-container': true, 'menu-unfold': $store.state.collapsed }">
+      <ViewHeader />
+      <RouterView/>
     </div>
   </div>
 </template>
 
 <script>
+import LeftMenu from '@/components/Menu.vue';
+import ViewHeader from '@/components/ViewHeader.vue';
+
 export default {
+  components: {
+    LeftMenu,
+    ViewHeader,
+  },
   data() {
     return {
-      collapsed: false,
     };
   },
-  methods: {
-    toggleCollapsed() {
-      this.collapsed = !this.collapsed;
-    },
-  },
+  methods: {},
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
 @import "~@/styles/var.less";
 .home-container {
   .menu-container {
@@ -109,18 +49,18 @@ export default {
       line-height: 50px;
       border-bottom: 1px solid @color-gray;
       padding: 0 10px;
-      .breadcrumb-container{
+      .breadcrumb-container {
         display: inline-block;
         margin-left: 20px;
       }
-      .user-info-container{
+      .user-info-container {
         float: right;
         cursor: pointer;
         text-align: center;
         li {
           padding: 0 20px;
         }
-        li:not(:first-child){
+        li:not(:first-child) {
           display: none;
           &:hover {
             background: @color-primary;
