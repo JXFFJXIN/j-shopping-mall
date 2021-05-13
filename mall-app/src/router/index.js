@@ -14,6 +14,8 @@ const asyncRouterMap = [
     name: 'Product',
     meta: {
       title: '商品',
+      hidden: false,
+      icon: 'inbox',
     },
     component: Home,
     children: [
@@ -22,6 +24,8 @@ const asyncRouterMap = [
         name: 'ProductList',
         meta: {
           title: '商品列表',
+          hidden: false,
+          icon: 'unordered-list',
         },
         component: () => import('@/views/page/productList.vue'),
       }, {
@@ -29,6 +33,8 @@ const asyncRouterMap = [
         name: 'ProductAdd',
         meta: {
           title: '添加商品',
+          hidden: false,
+          icon: 'file-add',
         },
         component: () => import('@/views/page/productAdd.vue'),
       }, {
@@ -36,6 +42,8 @@ const asyncRouterMap = [
         name: 'Category',
         meta: {
           title: '类目管理',
+          hidden: false,
+          icon: 'project',
         },
         component: () => import('@/views/page/category.vue'),
       },
@@ -48,14 +56,19 @@ const routes = [{
   path: '/',
   name: 'Home',
   component: Home,
+  redirect: '/index',
   meta: {
     title: '首页',
+    hidden: false,
+    icon: 'home',
   },
   children: [{
     path: 'index',
     name: 'Index',
     meta: {
       title: '统计',
+      hidden: false,
+      icon: 'number',
     },
     component: () => import('../views/page/index.vue'),
   }],
@@ -66,6 +79,7 @@ const routes = [{
   component: Login,
   meta: {
     title: '登录',
+    hidden: true,
   },
 },
 ];
@@ -75,15 +89,17 @@ const router = new VueRouter({
 });
 
 // 路由拦截器
-let isAddRoutes = false;
+let isAddRoutes = false; // 标识，表示只添加了一次路由
 router.beforeEach((to, from, next) => {
-  console.log(to.path);
   if (to.path !== '/login') {
     if (store.state.user.appkey && store.state.user.username && store.state.user.role) {
       if (!isAddRoutes) {
         const menuRoutes = getMenuRoutes(store.state.user.role, asyncRouterMap);
-        router.addRoutes(menuRoutes);
-        store.dispatch('changeMenuRoutes', routes.concat(menuRoutes));
+        store.dispatch('changeMenuRoutes', routes.concat(menuRoutes))
+          .then(() => {
+            router.addRoutes(menuRoutes);
+            next();
+          });
         isAddRoutes = true;
       }
       return next();

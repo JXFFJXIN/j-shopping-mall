@@ -9,8 +9,12 @@
     </a-button>
     <div class="breadcrumb-container">
       <a-breadcrumb>
-        <a-breadcrumb-item>首页</a-breadcrumb-item>
-        <a-breadcrumb-item><a href="">统计</a></a-breadcrumb-item>
+        <a-breadcrumb-item>{{currentRoute[0]?currentRoute[0].meta.title:''}}</a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <RouterLink :to="{name:currentRoute[1].name}">
+            {{currentRoute[1]?currentRoute[1].meta.title:''}}
+          </RouterLink>
+            </a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <ul class="user-info-container">
@@ -27,7 +31,13 @@
 export default {
   data() {
     return {
+      currentRoute: this.$router.currentRoute.matched,
     };
+  },
+  watch: {
+    $route() {
+      this.currentRoute = this.$router.currentRoute.matched;
+    },
   },
   methods: {
     toggleCollapsed() {

@@ -21,7 +21,7 @@ const role2route = {
 // 接口：获取目标路由
 export default function getMenuRoute(role, routes) {
   // 获取角色对应的路由
-  const allowRoutesName = roleToRoute[role].map((item) => item.name);
+  const allowRoutesName = role2route[role].map((item) => item.name);
   // 过滤掉没有权限的路由
   const resultRoutes = routes.filter((r) => {
     const obj = r;
