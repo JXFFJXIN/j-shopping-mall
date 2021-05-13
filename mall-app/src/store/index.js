@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     collapsed: false,
     user: getUserCookie(),
+    menuRoutes: [],
   },
   mutations: {
     changeCollapsed(state) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
         email: '',
       };
     },
+    changeMenuRoutes(state, routes) {
+      state.menuRoutes = routes;
+    },
   },
   actions: {
     changeCollapsed({ commit }) {
@@ -36,6 +40,9 @@ export default new Vuex.Store({
     logout({ commit }) {
       commit('logout');
       removeUserCookie();
+    },
+    changeMenuRoutes({ commit }, routes) {
+      commit('changeMenuRoutes', routes);
     },
   },
   modules: {
