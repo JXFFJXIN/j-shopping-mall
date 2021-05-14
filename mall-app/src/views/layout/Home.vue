@@ -1,9 +1,11 @@
 <template>
   <div class="home-container">
-    <LeftMenu />
-    <div :class="{ 'main-container': true, 'menu-unfold': $store.state.collapsed }">
+    <LeftMenu :key="key" />
+    <div
+      :class="{ 'main-container': true, 'menu-unfold': $store.state.collapsed }"
+    >
       <ViewHeader />
-      <RouterView/>
+      <RouterView />
     </div>
   </div>
 </template>
@@ -19,7 +21,13 @@ export default {
   },
   data() {
     return {
+      key: new Date().getTime(),
     };
+  },
+  watch: {
+    $route() {
+      this.key = new Date().getTime();
+    },
   },
   methods: {},
 };
@@ -49,6 +57,7 @@ export default {
       line-height: 50px;
       border-bottom: 1px solid @color-gray;
       padding: 0 10px;
+      position: relative;
       .breadcrumb-container {
         display: inline-block;
         margin-left: 20px;
@@ -57,6 +66,10 @@ export default {
         float: right;
         cursor: pointer;
         text-align: center;
+        position: absolute;
+        z-index: 99;
+        right: 0;
+        top: 0;
         li {
           padding: 0 20px;
         }

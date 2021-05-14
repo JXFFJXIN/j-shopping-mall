@@ -7,12 +7,16 @@ const role2route = {
   }, {
     name: 'ProductList',
   }, {
+    name: 'ProductEdit',
+  }, {
     name: 'ProductAdd',
   }],
   admin: [{
     name: 'ProductList',
   }, {
     name: 'ProductAdd',
+  }, {
+    name: 'ProductEdit',
   }, {
     name: 'Category',
   }],
