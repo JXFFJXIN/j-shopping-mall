@@ -71,9 +71,9 @@ export default {
         if (valid) {
           api.login(this.loginForm).then((res) => {
             console.log(res);
-            this.$store.dispatch('setUserInfo', res);
             const that = this;
             this.$message.success('登录成功', 1, () => {
+              that.$store.dispatch('setUserInfo', res);
               that.$router.push({
                 name: 'Home',
               });
