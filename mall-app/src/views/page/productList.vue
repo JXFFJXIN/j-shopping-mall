@@ -47,8 +47,8 @@ export default {
   },
   methods: {
     searchSubmit(form) {
-      console.log(form);
       this.searchForm = form;
+      this.getTableData();
     },
     getTableData() {
       api.list({
