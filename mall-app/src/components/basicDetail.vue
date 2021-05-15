@@ -15,7 +15,7 @@
               {{c.name}}
             </a-select-option>
         </a-select>
-        <a-select v-model="form.c_items" placeholder="请添加子类目">
+        <a-select v-model="form.c_item" placeholder="请添加子类目">
           <a-select-option v-for="c in categoryItems" :key="c" :value="c">
             {{c}}
         </a-select-option>
@@ -71,10 +71,8 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.$emit('next', this.form);
-          console.log(this.form);
           return true;
         }
-        console.log('error submit!!');
         return false;
       });
     },

@@ -5,7 +5,12 @@
     </a-steps>
     <div class="steps-content">
       <BasicInfo v-if="current === 0" @next="next" :form="form" />
-      <SaleInfo v-else-if="current === 1" @next="next" @prev="prev" :form="form" />
+      <SaleInfo
+        v-else-if="current === 1"
+        @next="next"
+        @prev="prev"
+        :form="form"
+      />
     </div>
   </div>
 </template>
@@ -45,6 +50,14 @@ export default {
     BasicInfo,
     SaleInfo,
   },
+  created() {
+    const { id } = this.$route.params;
+    if (id) {
+      api.detail(id).then((it) => {
+        this.form = it;
+      });
+    }
+  },
   methods: {
     next(form) {
       this.form = {
@@ -52,15 +65,21 @@ export default {
         form,
       };
       if (this.current === 1) {
-        //   提交数据
-        console.log(this.form);
-        api.add(this.form).then((res) => {
-          console.log(res);
-          this.$message.success('新增成功');
-          this.$router.push({
-            name: 'ProductList',
+        if (this.$route.params.id) {
+          api.edit(this.form).then(() => {
+            this.$message.success('修改成功');
+            this.$router.push({
+              name: 'ProductList',
+            });
           });
-        });
+        } else {
+          api.add(this.form).then(() => {
+            this.$message.success('新增成功');
+            this.$router.push({
+              name: 'ProductList',
+            });
+          });
+        }
       } else {
         this.current += 1;
       }

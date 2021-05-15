@@ -46,7 +46,6 @@ export default {
       res.data.forEach((item) => {
         this.categoryObj[item.id] = item;
       });
-      console.log(res);
     });
     this.getTableData();
   },
@@ -88,12 +87,10 @@ export default {
           api.remove({
             id: it.id,
           }).then(() => {
-            console.log(this);
             this.getTableData();
           });
         },
         onCancel() {
-          console.log('Cancel');
         },
         class: 'confirm-box',
       });

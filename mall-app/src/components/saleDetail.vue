@@ -65,9 +65,18 @@ export default {
     };
   },
   props: ['form'],
+  created() {
+    if (this.form.images.length > 0) {
+      this.fileList = this.form.images.map((item, index) => ({
+        uid: index,
+        name: `image-${index}.png`,
+        status: 'done',
+        url: item,
+      }));
+    }
+  },
   methods: {
     handleChange({ file, fileList }) {
-      console.log(file);
       if (file.status === 'done') {
         this.form.images.push(file.response.data.url);
       } else if (file.status === 'removed') {
@@ -82,12 +91,10 @@ export default {
           this.$emit('next', this.form);
           return true;
         }
-        console.log('error submit!!');
         return false;
       });
     },
     prev() {
-      console.log('prev');
       this.$emit('prev');
     },
     async handlePreview(file) {

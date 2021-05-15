@@ -70,7 +70,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           api.login(this.loginForm).then((res) => {
-            console.log(res);
             const that = this;
             this.$message.success('登录成功', 1, () => {
               that.$store.dispatch('setUserInfo', res);
@@ -83,7 +82,6 @@ export default {
           });
           return true;
         }
-        console.log('error submit!!');
         return false;
       });
     },

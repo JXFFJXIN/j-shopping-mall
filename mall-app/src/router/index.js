@@ -45,7 +45,7 @@ const asyncRouterMap = [
           hidden: true,
           icon: 'file-add',
         },
-        component: () => import('@/views/page/productEdit.vue'),
+        component: () => import('@/views/page/productAdd.vue'),
       }, {
         path: 'category',
         name: 'Category',
