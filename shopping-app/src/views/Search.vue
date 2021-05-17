@@ -18,7 +18,7 @@
         <template #action v-else>
           <van-icon
             name="cart-o"
-            id="shop-car"
+            id="shopping-car"
             class="shop-car"
             :badge="badge"
           />
