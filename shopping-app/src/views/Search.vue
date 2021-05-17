@@ -1,7 +1,7 @@
 <template>
   <div class="search-container">
     <div class="search-header">
-      <van-icon name="arrow-left" class="arr-left" />
+      <van-icon name="arrow-left" class="arr-left" @click="$router.goBack()" />
       <van-search
         class="search-content"
         v-model="value"
@@ -54,16 +54,21 @@
           ></GoodsCard>
         </van-list>
    </div>
+   <div class="my-history" v-if="likeList.length <= 0 && showList">
+       <MyHistory :searchList="searchList" @search="handleSearch" />
+   </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import GoodsCard from '@/components/GoodsCard.vue';
+import MyHistory from '@/components/MyHistory.vue';
 
 export default {
   components: {
     GoodsCard,
+    MyHistory,
   },
   data() {
     return {
@@ -78,6 +83,7 @@ export default {
       goodsList: [],
       showList: true,
       total: 0,
+      searchList: [],
     };
   },
   computed: {
@@ -92,6 +98,9 @@ export default {
       return count;
     },
   },
+  created() {
+    this.searchList = JSON.parse(localStorage.getItem('searchList')) || [];
+  },
   methods: {
     async handleSearch(value) {
       if (value) {
@@ -99,6 +108,17 @@ export default {
       } else {
         this.value = this.search;
       }
+      const result = this.searchList.find((item) => item.value === this.value);
+      if (result) {
+        result.time = new Date().getTime();
+        this.searchList.sort((a, b) => b.time - a.time);
+      } else {
+        this.searchList.unshift({ value: this.value, time: new Date().getTime() });
+        if (this.searchList.length >= 11) {
+          this.searchList.pop();
+        }
+      }
+      localStorage.setItem('searchList', JSON.stringify(this.searchList));
       this.likeList = [];
       this.goodsList = [];
       this.page = 1;
@@ -184,6 +204,15 @@ export default {
       margin: 48px auto 0;
       z-index: 10;
       background: #fff;
+    }
+    .my-history {
+      width: 350px;
+      position: absolute;
+      top: 40px;
+      left: 10px;
+      z-index: 1;
+      font-size: 12px;
+      color: #505050;
     }
 }
 </style>

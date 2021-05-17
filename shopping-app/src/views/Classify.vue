@@ -15,7 +15,7 @@
 
 <script>
 import OneTab from '@/components/OneTab.vue';
-import { mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import TwoTab from '@/components/TwoTab.vue';
 import GoodsList from '@/components/GoodsList.vue';
 
@@ -28,7 +28,20 @@ export default {
   computed: {
     ...mapState({
       showContent: (state) => state.showContent,
+      sideList: (state) => state.sideList,
     }),
+  },
+  methods: {
+    ...mapMutations(['resetGoodsList']),
+    ...mapActions(['getGoodsList']),
+  },
+  watch: {
+    showContent() {
+      if (this.showContent) {
+        this.resetGoodsList();
+        this.getGoodsList({ type: this.sideList[0], page: 1, sortType: 'all' });
+      }
+    },
   },
 };
 </script>
