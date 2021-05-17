@@ -1,12 +1,13 @@
 <template>
   <div class="classify-container">
-      <div class="search-btn">
-          <van-icon name="search" ></van-icon>
-          <div>苹果特价1元1斤</div>
-      </div>
-        <OneTab/>
-        <template v-if="showContent">
+    <div class="search-btn">
+      <van-icon name="search"></van-icon>
+      <div>苹果特价1元1斤</div>
+    </div>
+    <OneTab />
+    <template v-if="showContent">
       <TwoTab />
+      <GoodsList/>
     </template>
     <van-loading size="2rem" vertical v-else />
   </div>
@@ -16,11 +17,13 @@
 import OneTab from '@/components/OneTab.vue';
 import { mapState } from 'vuex';
 import TwoTab from '@/components/TwoTab.vue';
+import GoodsList from '@/components/GoodsList.vue';
 
 export default {
   components: {
     OneTab,
     TwoTab,
+    GoodsList,
   },
   computed: {
     ...mapState({
@@ -43,7 +46,7 @@ export default {
     font-size: 14px;
     text-align: center;
     color: #a1a1a1;
-    >* {
+    > * {
       display: inline-block;
       vertical-align: middle;
     }

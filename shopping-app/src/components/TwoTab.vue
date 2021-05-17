@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import tools from '@/utils/index';
 
 export default {
@@ -27,6 +27,8 @@ export default {
     }),
   },
   methods: {
+    ...mapActions(['getGoodsList']),
+    ...mapMutations(['resetGoodsList']),
     scrollTo(i, e) {
       if (this.move) {
         return;
@@ -43,7 +45,13 @@ export default {
         side,
         'scrollTop',
       );
+      this.resetGoodsList();
+      this.getGoodsList({ type: this.sideList[i], page: 1, sortType: 'all' });
     },
+  },
+  mounted() {
+    this.resetGoodsList();
+    this.getGoodsList({ type: this.sideList[0], page: 1, sortType: 'all' });
   },
 };
 </script>

@@ -8,6 +8,9 @@ export default new Vuex.Store({
   state: {
     sideList: [],
     showContent: false,
+    size: 5,
+    goodsList: [],
+    type: null,
   },
   mutations: {
     setSideList(state, list) {
@@ -15,6 +18,15 @@ export default new Vuex.Store({
     },
     setShowContent(state, bool) {
       state.showContent = bool;
+    },
+    setGoodsList(state, list) {
+      state.goodsList = [...state.goodsList, ...list];
+    },
+    resetGoodsList(state) {
+      state.goodsList = [];
+    },
+    setGoodsType(state, type) {
+      state.type = type;
     },
   },
   actions: {
@@ -24,6 +36,17 @@ export default new Vuex.Store({
       console.log(value);
       commit('setSideList', value);
       commit('setShowContent', true);
+    },
+    async getGoodsList({ state, commit }, options) {
+      const { page, sortType } = options;
+      const type = options.type || state.type;
+      commit('setGoodsType', type);
+      const { list, total } = await api.getGoodsList(type, page, state.size, sortType);
+      commit('setGoodsList', list);
+      if (total > state.goodsList.length) {
+        return true;
+      }
+      return false;
     },
   },
   modules: {
