@@ -3,6 +3,8 @@ import axios from 'axios';
 const URLS = {
   getSide: '/getsidebar',
   getGoodsList: '/getGoodsList',
+  search: '/search',
+  likeSearch: '/likeSearch',
 };
 const baseURL = 'https://mallapi.duyiedu.com/goods/';
 const appkey = 'JXFF_1620797315462';
@@ -29,7 +31,19 @@ const getGoodsList = (type, page, size, sort) => request.get(
   },
 );
 
+const likeSearch = (val) => request.get(
+  URLS.likeSearch,
+  { params: { likeValue: val } },
+);
+
+const search = (type, page, size) => request.get(
+  URLS.search,
+  { params: { type, page, size } },
+);
+
 export default {
   getSideList,
   getGoodsList,
+  likeSearch,
+  search,
 };
