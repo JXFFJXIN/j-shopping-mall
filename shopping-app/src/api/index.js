@@ -5,6 +5,7 @@ const URLS = {
   getGoodsList: '/getGoodsList',
   search: '/search',
   likeSearch: '/likeSearch',
+  getGoodsByIds: '/getGoodsByIds',
 };
 const baseURL = 'https://mallapi.duyiedu.com/goods/';
 const appkey = 'JXFF_1620797315462';
@@ -41,9 +42,15 @@ const search = (type, page, size) => request.get(
   { params: { type, page, size } },
 );
 
+const getGoodsByIds = (value) => request.get(
+  URLS.getGoodsByIds,
+  { params: { value } },
+);
+
 export default {
   getSideList,
   getGoodsList,
   likeSearch,
   search,
+  getGoodsByIds,
 };

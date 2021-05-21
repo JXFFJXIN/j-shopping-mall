@@ -21,6 +21,7 @@
             id="shopping-car"
             class="shop-car"
             :badge="badge"
+            @click="$router.push('/home/shopping')"
           />
         </template>
       </van-search>

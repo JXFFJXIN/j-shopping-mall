@@ -32,12 +32,15 @@ import { mapMutations } from 'vuex';
 import Animate from '@/components/Animate';
 
 export default {
-  props: ['images', 'tags', 'title', 'price', 'desc', 'id', 'num'],
+  props: ['images', 'tags', 'title', 'price', 'desc', 'id', 'num', 'nofly'],
   methods: {
     ...mapMutations(['storageChange']),
     counter(id, num) {
       this.storageChange({ id, value: num });
       if (num === -1) {
+        return;
+      }
+      if (this.nofly) {
         return;
       }
       const { top, left } = this.$refs.img.getBoundingClientRect();

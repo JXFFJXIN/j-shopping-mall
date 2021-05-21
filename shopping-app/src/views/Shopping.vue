@@ -95,7 +95,6 @@ export default {
           this.list = this.list.filter((item) => !this.result.includes(item.id));
         });
       } catch (error) {
-        console.log(error);
         Toast('用户点击了取消');
       }
     },
